@@ -8,14 +8,18 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "CRDT",
+    name: "CRDT Library",
     platforms: [
-        .iOS("17.5")
+        .iOS("17.0"),
     ],
     products: [
-        .iOSApplication(
+        .library(
             name: "CRDT",
-            targets: ["AppModule"],
+            targets: ["CRDT"]
+        ),
+        .iOSApplication(
+            name: "CRDT Library",
+            targets: ["TestApp"],
             displayVersion: "1.0",
             bundleVersion: "1",
             appIcon: .placeholder(icon: .box),
@@ -30,15 +34,35 @@ let package = Package(
                 .landscapeLeft,
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
             ]
-        )
+        ),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/MutatingFunc/UnitTestingPreviews", "0.1.4"..<"1.0.0"),
     ],
     targets: [
+        .target(
+            name: "CRDT",
+            dependencies: [
+                .product(name: "UnitTestingPreviews", package: "UnitTestingPreviews")
+            ]
+        ),
         .executableTarget(
-            name: "AppModule",
-            path: ".",
+            name: "TestApp",
+            dependencies: [
+                "CRDT",
+            ],
             swiftSettings: [
                 .enableUpcomingFeature("BareSlashRegexLiterals")
             ]
-        )
+        ),
     ]
 )
+
+for target in package.targets {
+  target.swiftSettings = target.swiftSettings ?? []
+  target.swiftSettings?.append(
+    contentsOf: [
+      .enableExperimentalFeature("StrictConcurrency")
+    ]
+  )
+}

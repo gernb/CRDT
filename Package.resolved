@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "unittestingpreviews",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MutatingFunc/UnitTestingPreviews",
+      "state" : {
+        "revision" : "1eff2deac307a595c1ab185bc3e1b9737cd7a618",
+        "version" : "0.1.4"
+      }
+    }
+  ],
+  "version" : 2
+}
